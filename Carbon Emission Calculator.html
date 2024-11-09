@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <!-- Add CSS for styling -->
+</head>
+<body>
+    <div id="logo">
+        <!-- Replace 'path_to_logo.png' with the actual path to your logo image -->
+        <img src="path_to_logo.png" alt="LetsRoute Logo" style="width: 150px;">
+    <h1>Carbon Footprint Calculator for Logistics</h1>
+    </div>
+    <form id="carbonCalculator">
+        <label for="fleetSize">Fleet Size:</label>
+        <input type="number" id="fleetSize" name="fleetSize" min="1" required>
+        
+        <label for="avgDistance">Average Distance per Vehicle per Day (in miles):</label>
+        <input type="number" id="avgDistance" name="avgDistance" step="any" required>
+        
+        <select id="vehicleType" name="vehicleType">
+        <option value="smallVan">Small Van</option>
+        <option value="mediumVehicle">Medium Vehicle</option> <!-- Added option -->
+        <option value="largeTruck">Large Truck</option>
+        </select>
+        
+        <label for="fuelType">Fuel Type:</label>
+        <select id="fuelType" name="fuelType">
+            <option value="diesel">Diesel</option>
+            <option value="petrol">Petrol</option>
+            <option value="electric">Electric</option>
+        </select>
+        
+        <button type="button" onclick="calculateEmissions()">Calculate Emissions</button>
+    </form>
+    <div id="result"></div>
+    <!-- Add JavaScript for calculations -->
+</body>
+</html>
+<script>
+    function calculateEmissions() {
+        const fleetSize = document.getElementById('fleetSize').value;
+        const avgDistance = document.getElementById('avgDistance').value;
+        const vehicleType = document.getElementById('vehicleType').value;
+        const fuelType = document.getElementById('fuelType').value;
+        
+        let emissionsFactor = 0; // Initialize emissions factor
+        
+        // Updated emission factors
+        const emissionFactors = {
+            'smallVan': { 'diesel': 0.37268, 'petrol': 0.3433, 'electric': 0.09179 },
+            'mediumVehicle': { 'diesel': 0.80078, 'petrol': 0.73765, 'electric': 0.19722 }, // Added data
+            'largeTruck': { 'diesel': 0.97838, 'petrol': 0.90125, 'electric': 0.24097 }
+        };
+
+        emissionsFactor = emissionFactors[vehicleType][fuelType];
+        
+        const totalEmissions = fleetSize * avgDistance * emissionsFactor;
+        document.getElementById('result').innerHTML = `Estimated Total Daily Emissions: ${totalEmissions.toFixed(2)} kg CO2`;
+    }
+</script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    form {
+        margin-bottom: 20px;
+    }
+    label, input, select {
+        display: block;
+        margin: 10px 0;
+    }
+    #result {
+        margin-top: 20px;
+    }
+</style>
